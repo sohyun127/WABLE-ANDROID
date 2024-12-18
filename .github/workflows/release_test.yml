@@ -70,27 +70,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: debug-apk
-          path: app/build/outputs/apk/debug/
+          path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
-
-      - name: On Success, Notify in Slack
-        if: ${{ success() }}
-        uses: MeilCli/slack-upload-file@v3
-        with:
-          slack_token: ${{ secrets.SLACK_BOT_TOKEN }}
-          channel_id: ${{ secrets.SLACK_GENERAL_CHANNEL_ID }}
-          file_path: 'app/build/outputs/apk/debug/app-debug.apk'
-          file_name: 'WABLE-ANDROID.apk'
-          file_type: 'apk'
-          initial_comment: '💟 Release Test가 완료되었습니다 💟'
-
-      - name: On Failed, Notify in Slack
-        if: ${{ failure() }}
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_TITLE: '🚫 Release PR check Failed 🚫'
-          SLACK_COLOR: '#FF0000'
-          MSG_MINIMAL: true
-          SLACK_USERNAME: Wable Android
-          SLACK_MESSAGE: '️🚫⚠️ Release PR 에러  ️⚠️🚫'
